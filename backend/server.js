@@ -26,20 +26,29 @@ app.use((req, res) => {
 
 // Missing Environment Variable Validation
 if (!process.env.MONGO_URI) {
-  console.error("FATAL ERROR: MONGO_URI environment variable is missing.");
-  console.error("If you are deploying on Render, please make sure you add it to the Environment Variables dashboard!");
-  setTimeout(() => process.exit(1), 1000); // Delay exit to ensure Render captures the log
-}
-
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('Successfully connected to MongoDB Atlas');
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+  console.log("=====================================");
+  console.log("FATAL ERROR: MONGO_URI IS MISSING!");
+  console.log("Render failed to find the MONGO_URI environment variable.");
+  console.log("Go to your Render Dashboard -> Environment -> Add Environment Variable.");
+  console.log("Key: MONGO_URI");
+  console.log("Value: mongodb+srv://...");
+  console.log("=====================================");
+  setTimeout(() => process.exit(1), 2000);
+} else {
+  // MongoDB connection
+  mongoose.connect(process.env.MONGO_URI)
+    .then(() => {
+      console.log('Successfully connected to MongoDB Atlas');
+      app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+      });
+    })
+    .catch((err) => {
+      console.log('=====================================');
+      console.log('MongoDB Connection Failed!');
+      console.log('Error Message:', err.message);
+      console.log('Did you whitelist 0.0.0.0/0 in MongoDB Atlas Network Access?');
+      console.log('=====================================');
+      setTimeout(() => process.exit(1), 2000);
     });
-  })
-  .catch((err) => {
-    console.error('Error connecting to MongoDB:', err.message);
-    setTimeout(() => process.exit(1), 1000); // Delay exit to ensure Render captures the log
-  });
+}
