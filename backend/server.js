@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
@@ -12,8 +13,16 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json()); // Parses incoming JSON requests
 
+// Serve static frontend
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Routes
 app.use('/tasks', taskRoutes);
+
+// Catch-all route to serve the frontend for any other request
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI)

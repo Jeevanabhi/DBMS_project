@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Task Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="app-header">
+      <div class="header-content">
+        <h1>Smart Task Manager</h1>
+        <p>A demonstration of MongoDB's dynamic, schema-less capabilities</p>
+        <p style="margin-top: 0.5rem; font-style: italic; color: #64748b;">“Each task can have completely different attributes without modifying any schema.”</p>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <section class="task-form-section card glass">
+        <h2>Add New Task</h2>
+        <form id="task-form">
+          <div class="form-group">
+            <label for="title">Task Title</label>
+            <input type="text" id="title" name="title" required placeholder="e.g. Design Landing Page">
+          </div>
+          
+          <div class="form-group">
+            <label for="status">Status</label>
+            <select id="status" name="status">
+              <option value="Pending">Pending</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>
+              Dynamic Fields
+              <span class="tooltip-icon" title="Add custom attributes to this task (e.g., 'Priority', 'Deadline').">?</span>
+            </label>
+            <div id="dynamic-fields-list">
+              <!-- Dynamic key-value inputs will be injected here -->
+            </div>
+            <button type="button" id="btn-add-field" class="btn btn-secondary btn-small" style="margin-top: 0.5rem;">+ Add Attribute</button>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Create Task</button>
+        </form>
+      </section>
+
+      <section class="task-list-section">
+        <div class="section-header">
+          <h2>Your Tasks</h2>
+        </div>
+        <div id="tasks-container" class="task-grid">
+          <!-- Tasks will be injected here dynamically -->
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
