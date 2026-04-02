@@ -24,6 +24,13 @@ app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Start the server immediately so Render detects an open port
+app.listen(PORT, () => {
+  console.log(`=====================================`);
+  console.log(`Server proudly running on port ${PORT}`);
+  console.log(`=====================================`);
+});
+
 // Missing Environment Variable Validation
 if (!process.env.MONGO_URI) {
   console.log("=====================================");
@@ -33,15 +40,11 @@ if (!process.env.MONGO_URI) {
   console.log("Key: MONGO_URI");
   console.log("Value: mongodb+srv://...");
   console.log("=====================================");
-  setTimeout(() => process.exit(1), 2000);
 } else {
   // MongoDB connection
   mongoose.connect(process.env.MONGO_URI)
     .then(() => {
       console.log('Successfully connected to MongoDB Atlas');
-      app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-      });
     })
     .catch((err) => {
       console.log('=====================================');
@@ -49,6 +52,5 @@ if (!process.env.MONGO_URI) {
       console.log('Error Message:', err.message);
       console.log('Did you whitelist 0.0.0.0/0 in MongoDB Atlas Network Access?');
       console.log('=====================================');
-      setTimeout(() => process.exit(1), 2000);
     });
 }
