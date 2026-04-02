@@ -19,8 +19,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 app.use('/tasks', taskRoutes);
 
-// Catch-all route to serve the frontend for any other request
-app.get('*', (req, res) => {
+// Catch-all fallback route to serve the frontend for any other request
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
