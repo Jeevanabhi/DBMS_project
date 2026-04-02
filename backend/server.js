@@ -28,7 +28,7 @@ app.use((req, res) => {
 if (!process.env.MONGO_URI) {
   console.error("FATAL ERROR: MONGO_URI environment variable is missing.");
   console.error("If you are deploying on Render, please make sure you add it to the Environment Variables dashboard!");
-  process.exit(1);
+  setTimeout(() => process.exit(1), 1000); // Delay exit to ensure Render captures the log
 }
 
 // MongoDB connection
@@ -41,5 +41,5 @@ mongoose.connect(process.env.MONGO_URI)
   })
   .catch((err) => {
     console.error('Error connecting to MongoDB:', err.message);
-    process.exit(1);
+    setTimeout(() => process.exit(1), 1000); // Delay exit to ensure Render captures the log
   });
